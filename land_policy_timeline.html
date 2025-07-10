@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federal Land Policy Timeline</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #3498db 0%, #e74c3c 50%, #27ae60 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 40px 0;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .timeline-item:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+
+        .timeline-item:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+
+        .timeline-content {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            position: relative;
+            width: 45%;
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 55%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        /* Era-based color coding */
+        .exclusion { border-left-color: #e74c3c; }
+        .exclusion .timeline-dot { border-color: #e74c3c; }
+
+        .reconstruction { border-left-color: #f39c12; }
+        .reconstruction .timeline-dot { border-color: #f39c12; }
+
+        .allotment { border-left-color: #8e44ad; }
+        .allotment .timeline-dot { border-color: #8e44ad; }
+
+        .new-deal { border-left-color: #3498db; }
+        .new-deal .timeline-dot { border-color: #3498db; }
+
+        .neoliberal { border-left-color: #95a5a6; }
+        .neoliberal .timeline-dot { border-color: #95a5a6; }
+
+        .litigation { border-left-color: #e67e22; }
+        .litigation .timeline-dot { border-color: #e67e22; }
+
+        .contemporary { border-left-color: #27ae60; }
+        .contemporary .timeline-dot { border-color: #27ae60; }
+
+        .year {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .impact {
+            background: #ecf0f1;
+            padding: 12px;
+            border-radius: 8px;
+            font-style: italic;
+            color: #2c3e50;
+            border-left: 3px solid #bdc3c7;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            color: #495057;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 60px !important;
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .legend {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <div class="header">
+            <h1>Federal Land Policy Timeline</h1>
+            <p>From Homestead Act to Justice for Black Farmers: 160 Years of Land Policy Evolution</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item exclusion">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">1862</div>
+                    <div class="title">Homestead Act</div>
+                    <div class="description">
+                        President Lincoln signs act offering 160 acres for $12 filing fee. Required 5 years residence, house construction, and crop cultivation. Excluded African Americans through citizenship requirement.
+                    </div>
+                    <div class="impact">
+                        Impact: 246 million acres transferred over 76 years, but systematically excluded people of color from wealth-building opportunities.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item reconstruction">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">1866</div>
+                    <div class="title">Southern Homestead Act & Reconstruction</div>
+                    <div class="description">
+                        Applied to 46 million acres in five Southern states. Explicitly prohibited racial discrimination and lowered processing fees to encourage freed slave participation.
+                    </div>
+                    <div class="impact">
+                        Impact: Failed in practice - only ~6,000 successful African American claims by 1876. Repealed in 1876 with end of Reconstruction.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item allotment">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">1887</div>
+                    <div class="title">Dawes Act (General Allotment Act)</div>
+                    <div class="description">
+                        Eliminated tribal reservations and dispersed communal lands to individual ownership. No tribal consent required. "Surplus" lands sold to white settlers after individual allotments.
+                    </div>
+                    <div class="impact">
+                        Impact: Catastrophic - Indian landholdings reduced from 150 million to 48 million acres by 1934. Opposed by National Indian Defence Association.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item new-deal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">1934</div>
+                    <div class="title">Indian Reorganization Act (Indian New Deal)</div>
+                    <div class="description">
+                        Ended allotment policy and promoted limited local self-government for tribes with federal funding. Created framework for economic development and education programs.
+                    </div>
+                    <div class="impact">
+                        Impact: Partial success - stopped land loss but required Euro-American governmental structures. Remains central to contemporary Indigenous land struggles.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item neoliberal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">1976-1990s</div>
+                    <div class="title">End of Homestead Era & Neoliberal Reforms</div>
+                    <div class="description">
+                        Homestead Act officially ended in 1976. 1980s-90s saw agricultural policy decentralization, private sector expansion, and creation of "socially disadvantaged farmer" category (1990).
+                    </div>
+                    <div class="impact">
+                        Impact: Initial harm to farmers of color, but decentralization later created opportunities for community-based organizations to influence policy.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item litigation">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">1999-2010</div>
+                    <div class="title">Discrimination Lawsuits Era</div>
+                    <div class="description">
+                        Major settlements: Pigford v. Glickman ($1 billion for African American farmers), Garcia v. Vilsack (Latino farmers), Keepseagle v. Vilsack (Indigenous farmers), Cobell v. Salazar.
+                    </div>
+                    <div class="impact">
+                        Impact: Federal acknowledgment of systematic discrimination and billions in settlements, establishing precedent for addressing historical injustices.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item contemporary">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2018</div>
+                    <div class="title">Heirs' Property Relending Program</div>
+                    <div class="description">
+                        Allows community-based lenders to provide up to $5 million at 1% interest to address land title issues for heirs' property owners (affecting ~1/3 of Black farmers).
+                    </div>
+                    <div class="impact">
+                        Impact: Innovative decentralized approach with civil society partnerships, delayed until Biden administration but now operational.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item contemporary">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2020-2021</div>
+                    <div class="title">Justice for Black Farmers Act</div>
+                    <div class="description">
+                        Comprehensive legislation including land redistribution (160-acre grants), USDA Equity Commission, heirs' property protections, and corporate consolidation research.
+                    </div>
+                    <div class="impact">
+                        Impact: Represents "contradictory neoliberalism" - using decentralization to challenge rather than reinforce corporate power. Partial implementation ongoing.
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item contemporary">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2021-Present</div>
+                    <div class="title">Debt Relief Battles & Implementation</div>
+                    <div class="description">
+                        American Rescue Plan debt relief ($4B) blocked by lawsuits. Inflation Reduction Act ($3.1B) without racial criteria. Ongoing JBFA implementation with Equity Commission created.
+                    </div>
+                    <div class="impact">
+                        Impact: Continued legal and political battles over racial equity in agriculture, with community-based organizations gaining direct policy implementation roles.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e74c3c;"></div>
+                <span>Exclusion Era</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f39c12;"></div>
+                <span>Reconstruction</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #8e44ad;"></div>
+                <span>Allotment Period</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #3498db;"></div>
+                <span>New Deal Era</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #95a5a6;"></div>
+                <span>Neoliberal Period</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e67e22;"></div>
+                <span>Litigation Era</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #27ae60;"></div>
+                <span>Contemporary Reforms</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
